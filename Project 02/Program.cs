@@ -17,20 +17,41 @@ namespace Project_02
         {
             InitializeAllCityInfo();
 
+            //shortest path considering the weighted edges
+            Console.WriteLine("Shortest path considering the weighted edges: \n");
+
             //BFS way
             Console.WriteLine("the result for using BFS algorithm:");
-            ResetDistanceAndPath();
-            BFSMethod();
+            BFSMethodForWeightedEdges();
 
             Console.WriteLine();
 
             //DFS way
             Console.WriteLine("the result for using DFS alogithm:");
-            ResetDistanceAndPath();
-            DFSMethod();
+            DFSMethodForWeightedEdges();
+
+            Console.WriteLine();
+
+            //shortest path considering the least number of nodes
+            Console.WriteLine("Shortest path considering the least number of nodes: \n");
+
+            //BFS way
+            Console.WriteLine("the result for using BFS algorithm:");
+            BFSMethodForLeastNodes();
+
+            Console.WriteLine();
+
+            //DFS way
+            Console.WriteLine("the result for using DFS alogithm:");
+            DFSMethodForLeastNodes();
 
             Console.Write("\nPress any key to exit...");
             Console.Read();
+        }
+
+        static double CalculateDistance(CityInfo cityOne, CityInfo cityTwo)
+        {
+            return Math.Sqrt(Math.Pow(cityOne.X - cityTwo.X, 2) + Math.Pow(cityOne.Y - cityTwo.Y, 2));
         }
 
         static void InitializeAllCityInfo()
@@ -67,7 +88,7 @@ namespace Project_02
             cities[10].connectedCities = new CityInfo[] { };
         }
 
-        static void ResetDistanceAndPath()
+        static void ResetDistanceAndPathForWeightedEdge()
         {
             foreach (CityInfo city in cities)
             {
@@ -75,18 +96,18 @@ namespace Project_02
                 city.pathFromSource = new List<int>();
             }
 
+            queue.Clear();
+            stack.Clear();
+
             //manually assign the information of the starting city
             cities[0].distanceFromSource = 0;
             cities[0].pathFromSource.Add(1);
         }
 
-        static double CalculateDistance(CityInfo cityOne, CityInfo cityTwo)
+        static void BFSMethodForWeightedEdges()
         {
-            return Math.Sqrt(Math.Pow(cityOne.X - cityTwo.X, 2) + Math.Pow(cityOne.Y - cityTwo.Y, 2));
-        }
+            ResetDistanceAndPathForWeightedEdge();
 
-        static void BFSMethod()
-        {
             queue.Enqueue(cities[0]);
 
             while (queue.Count != 0)
@@ -124,8 +145,10 @@ namespace Project_02
             Console.WriteLine();
         }
 
-        static void DFSMethod()
+        static void DFSMethodForWeightedEdges()
         {
+            ResetDistanceAndPathForWeightedEdge();
+
             stack.Push(cities[0]);
 
             while (stack.Count != 0)
@@ -162,6 +185,89 @@ namespace Project_02
             }
             Console.WriteLine();
         }
+
+        static void ResetPathForLeaseNodes()
+        {
+            foreach (CityInfo city in cities)
+            {
+                city.pathFromSource.Clear();
+                city.IsVisited = false;
+            }
+
+            cities[0].pathFromSource.Add(1);
+            cities[0].IsVisited = true;
+
+            queue.Clear();
+            stack.Clear();
+        }
+
+        static void BFSMethodForLeastNodes()
+        {
+            ResetPathForLeaseNodes();
+
+            queue.Enqueue(cities[0]);
+
+            while (queue.Count != 0)
+            {
+                CityInfo dequeuedCity = queue.Dequeue();
+                foreach (CityInfo connectedCity in dequeuedCity.connectedCities)
+                {
+                    //if the connectedCity is already in the queue, skip it
+                    if (connectedCity.IsVisited == true)
+                    {
+                        continue;
+                    }
+
+                    //otherwise, add it to the queue and update the pathFromSource
+                    queue.Enqueue(connectedCity);
+                    connectedCity.IsVisited = true;
+
+                    connectedCity.pathFromSource.AddRange(dequeuedCity.pathFromSource);
+                    connectedCity.pathFromSource.Add(connectedCity.ID);
+                }// end foreach
+            }// end while()
+
+            Console.Write("the shortest path is: ");
+            foreach (int cityId in cities[10].pathFromSource)
+            {
+                Console.Write(cityId + " ");
+            }
+            Console.WriteLine();
+        }
+
+        static void DFSMethodForLeastNodes()
+        {
+            ResetPathForLeaseNodes();
+
+            stack.Push(cities[0]);
+
+            while (stack.Count != 0)
+            {
+                CityInfo popCity = stack.Pop();
+                foreach (CityInfo connectedCity in popCity.connectedCities)
+                {
+                    //if the connectedCity is already in the stack, skip it
+                    if (connectedCity.IsVisited == true)
+                    {
+                        continue;
+                    }
+
+                    //otherwise, add it to the stack and update the pathFromSource
+                    stack.Push(connectedCity);
+                    connectedCity.IsVisited = true;
+
+                    connectedCity.pathFromSource.AddRange(popCity.pathFromSource);
+                    connectedCity.pathFromSource.Add(connectedCity.ID);
+                }// end foreach
+            }// end while()
+
+            Console.Write("the shortest path is: ");
+            foreach (int cityId in cities[10].pathFromSource)
+            {
+                Console.Write(cityId + " ");
+            }
+            Console.WriteLine();
+        }
     }
 
     //store each city's ID and coordinate
@@ -170,8 +276,9 @@ namespace Project_02
         public int ID { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
-        public CityInfo[] connectedCities { get; set; } //this one is manually assigned
-        public double distanceFromSource { get; set; } //store the shortest distance from the first city 
-        public List<int> pathFromSource { get; set; } //store the shortest path from the first city
+        public bool IsVisited { get; set; }//Used only for considering least nodes case. Store if the city is visited.
+        public CityInfo[] connectedCities { get; set; } //Used for both cases. Store the connected cities, this one is manually assigned
+        public double distanceFromSource { get; set; } //Used only for considering weighted deges case. Store the shortest distance from the first city 
+        public List<int> pathFromSource { get; set; } //Used for both cases. Store the shortest path from the first city
     }
 }
