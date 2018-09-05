@@ -29,6 +29,7 @@ namespace Project_02
             ResetDistanceAndPath();
             DFSMethod();
 
+            Console.Write("\nPress any key to exit...");
             Console.Read();
         }
 
@@ -43,12 +44,12 @@ namespace Project_02
             for (int i = 7; i < data.Length; i++)
             {
                 //split the line by the space
-                string[] line = data[i].Split(' ');
+                string[] row = data[i].Split(' ');
                 cities[i - 7] = new CityInfo()
                 {
                     ID = i - 6,
-                    X = Convert.ToDouble(line[1]),
-                    Y = Convert.ToDouble(line[2])
+                    X = Convert.ToDouble(row[1]),
+                    Y = Convert.ToDouble(row[2])
                 };
             }
 
@@ -94,11 +95,14 @@ namespace Project_02
                 foreach (CityInfo connectedCity in dequeuedCity.connectedCities)
                 {
                     queue.Enqueue(connectedCity);
+
+                    //calculate the distance from the first city based on the current path
                     double distanceFromsource = dequeuedCity.distanceFromSource + CalculateDistance(dequeuedCity, connectedCity);
 
+                    //compare the current calculated distance with the shortest distance calculated from previous calculation
                     if (distanceFromsource < connectedCity.distanceFromSource)
                     {
-                        //reset distance and path
+                        //assign new shortest distance and path
                         connectedCity.distanceFromSource = distanceFromsource;
 
                         connectedCity.pathFromSource.Clear();
@@ -130,11 +134,14 @@ namespace Project_02
                 foreach (CityInfo connectedCity in popCity.connectedCities)
                 {
                     stack.Push(connectedCity);
+
+                    //calculate the distance from the first city based on the current path
                     double distanceFromsource = popCity.distanceFromSource + CalculateDistance(popCity, connectedCity);
 
+                    //compare the current calculated distance with the shortest distance calculated from previous calculation
                     if (distanceFromsource < connectedCity.distanceFromSource)
                     {
-                        //reset distance and path
+                        //assign new shortest distance and path
                         connectedCity.distanceFromSource = distanceFromsource;
 
                         connectedCity.pathFromSource.Clear();
@@ -164,7 +171,7 @@ namespace Project_02
         public double X { get; set; }
         public double Y { get; set; }
         public CityInfo[] connectedCities { get; set; } //this one is manually assigned
-        public double distanceFromSource { get; set; }
-        public List<int> pathFromSource { get; set; }
+        public double distanceFromSource { get; set; } //store the shortest distance from the first city 
+        public List<int> pathFromSource { get; set; } //store the shortest path from the first city
     }
 }
