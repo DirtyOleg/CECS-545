@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,35 +18,32 @@ namespace Project_02
         {
             InitializeAllCityInfo();
 
-            //shortest path considering the weighted edges
-            Console.WriteLine("Shortest path considering the weighted edges: \n");
-
-            //BFS way
-            Console.WriteLine("the result for using BFS algorithm:");
-            BFSMethodForWeightedEdges();
-
-            Console.WriteLine();
-
-            //DFS way
-            Console.WriteLine("the result for using DFS alogithm:");
-            DFSMethodForWeightedEdges();
-
-            Console.WriteLine();
-
             //shortest path considering the least number of nodes
             Console.WriteLine("Shortest path considering the least number of nodes: \n");
-
-            //BFS way
-            Console.WriteLine("the result for using BFS algorithm:");
-            BFSMethodForLeastNodes();
-
-            Console.WriteLine();
 
             //DFS way
             Console.WriteLine("the result for using DFS alogithm:");
             DFSMethodForLeastNodes();
+            Console.WriteLine();
 
-            Console.Write("\nPress any key to exit...");
+            //BFS way
+            Console.WriteLine("the result for using BFS algorithm:");
+            BFSMethodForLeastNodes();
+            Console.WriteLine();  
+
+            //shortest path considering the weighted edges
+            Console.WriteLine("Shortest path considering the weighted edges: \n");
+
+            //DFS way
+            Console.WriteLine("the result for using DFS alogithm:");
+            DFSMethodForWeightedEdges();
+            Console.WriteLine();
+
+            //BFS way
+            Console.WriteLine("the result for using BFS algorithm:");
+            BFSMethodForWeightedEdges();
+            Console.WriteLine();         
+
             Console.Read();
         }
 
@@ -70,8 +68,9 @@ namespace Project_02
                 {
                     ID = i - 6,
                     X = Convert.ToDouble(row[1]),
-                    Y = Convert.ToDouble(row[2])
-                };
+                    Y = Convert.ToDouble(row[2]),
+                    pathFromSource = new List<int>()
+            };
             }
 
             //manually assign connected cities
@@ -92,8 +91,8 @@ namespace Project_02
         {
             foreach (CityInfo city in cities)
             {
+                city.pathFromSource.Clear();
                 city.distanceFromSource = double.MaxValue;
-                city.pathFromSource = new List<int>();
             }
 
             queue.Clear();
@@ -107,6 +106,10 @@ namespace Project_02
         static void BFSMethodForWeightedEdges()
         {
             ResetDistanceAndPathForWeightedEdge();
+
+            //start timer
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             queue.Enqueue(cities[0]);
 
@@ -136,6 +139,9 @@ namespace Project_02
                 }// end foreach
             }// end while()
 
+            sw.Stop();
+            Console.WriteLine($"total time used (measured in milliseconds): {sw.Elapsed.TotalMilliseconds}");
+
             Console.WriteLine("the shortest distance is: " + cities[10].distanceFromSource);
             Console.Write("the shortest path is: ");
             foreach (int cityId in cities[10].pathFromSource)
@@ -148,6 +154,10 @@ namespace Project_02
         static void DFSMethodForWeightedEdges()
         {
             ResetDistanceAndPathForWeightedEdge();
+
+            //start timer
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             stack.Push(cities[0]);
 
@@ -177,6 +187,9 @@ namespace Project_02
                 }// end foreach
             }// end while
 
+            sw.Stop();
+            Console.WriteLine($"total time used (measured in milliseconds): {sw.Elapsed.TotalMilliseconds}");
+
             Console.WriteLine("the shortest distance is: " + cities[10].distanceFromSource);
             Console.Write("the shortest path is: ");
             foreach (int cityId in cities[10].pathFromSource)
@@ -205,6 +218,10 @@ namespace Project_02
         {
             ResetPathForLeaseNodes();
 
+            //start timer
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             queue.Enqueue(cities[0]);
 
             while (queue.Count != 0)
@@ -227,6 +244,9 @@ namespace Project_02
                 }// end foreach
             }// end while()
 
+            sw.Stop();
+            Console.WriteLine($"total time used (measured in milliseconds): {sw.Elapsed.TotalMilliseconds}");
+
             Console.Write("the shortest path is: ");
             foreach (int cityId in cities[10].pathFromSource)
             {
@@ -238,6 +258,10 @@ namespace Project_02
         static void DFSMethodForLeastNodes()
         {
             ResetPathForLeaseNodes();
+
+            //start timer
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
 
             stack.Push(cities[0]);
 
@@ -260,6 +284,9 @@ namespace Project_02
                     connectedCity.pathFromSource.Add(connectedCity.ID);
                 }// end foreach
             }// end while()
+
+            sw.Stop();
+            Console.WriteLine($"total time used (measured in milliseconds): {sw.Elapsed.TotalMilliseconds}");
 
             Console.Write("the shortest path is: ");
             foreach (int cityId in cities[10].pathFromSource)
