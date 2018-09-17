@@ -35,7 +35,7 @@ namespace Project_03
                     //Since all real X and Y value fall into the rage between 0 and 100, I set the size of the PictureBox form to 1000x1000, so all relative coordinate is just their real coordinate times 10.
 
                     rel_x = city.X * 10;
-                    rel_y = 1000 - city.Y * 10; //since the origin coordinate used in Graphics instance is the top-left corner of the form, while our data is based on bottom-left origin.                    
+                    rel_y = bmpWidth - city.Y * 10; //since the origin coordinate used in Graphics instance is the top-left corner of the form, while our data is based on bottom-left origin.                    
 
                     //Draw the dot
                     g.FillEllipse(Brushes.Black, rel_x, rel_y, 4, 4);
