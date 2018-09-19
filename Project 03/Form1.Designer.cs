@@ -39,7 +39,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_Distance = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lbl_Path = new System.Windows.Forms.Label();
             this.btn_Calculate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -132,9 +132,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(1049, 823);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(134, 18);
+            this.label4.Size = new System.Drawing.Size(143, 18);
             this.label4.TabIndex = 9;
-            this.label4.Text = "Total Distance";
+            this.label4.Text = "Total Distance:";
             // 
             // lbl_Distance
             // 
@@ -148,20 +148,20 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1065, 925);
+            this.label6.Location = new System.Drawing.Point(1049, 910);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(62, 18);
+            this.label6.Size = new System.Drawing.Size(53, 18);
             this.label6.TabIndex = 11;
-            this.label6.Text = "label6";
+            this.label6.Text = "Path:";
             // 
-            // label7
+            // lbl_Path
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(1074, 976);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 18);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "label7";
+            this.lbl_Path.AutoSize = true;
+            this.lbl_Path.Location = new System.Drawing.Point(1049, 945);
+            this.lbl_Path.Name = "lbl_Path";
+            this.lbl_Path.Size = new System.Drawing.Size(62, 18);
+            this.lbl_Path.TabIndex = 12;
+            this.lbl_Path.Text = "label7";
             // 
             // btn_Calculate
             // 
@@ -180,7 +180,7 @@
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1335, 1057);
             this.Controls.Add(this.btn_Calculate);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.lbl_Path);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lbl_Distance);
             this.Controls.Add(this.label4);
@@ -216,7 +216,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbl_Distance;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lbl_Path;
         private System.Windows.Forms.Button btn_Calculate;
     }
 }

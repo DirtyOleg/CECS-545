@@ -16,6 +16,7 @@ namespace Project_03
         private List<CityInfo> cityList = new List<CityInfo>(); //City List
         private List<CityInfo> visitedCityList = new List<CityInfo>();
         private Bitmap bmp;
+        private float totalDistance;
 
         public mainFrm()
         {
@@ -26,6 +27,7 @@ namespace Project_03
         {
             cbb_Scale.Enabled = false;
             cbb_StartCity.Enabled = false;
+            btn_Calculate.Enabled = false;
             panel1.Visible = false;
         }
 
@@ -37,19 +39,23 @@ namespace Project_03
             ofd.Title = "Choose the .tsp file";
             ofd.ShowDialog();
 
-            //Initialize City List based on the file user chosen
-            InitializeCityInfoList(ofd.FileName);
+            if (!string.IsNullOrEmpty(ofd.FileName))
+            {
+                //Initialize City List based on the file user chosen
+                InitializeCityInfoList(ofd.FileName);
 
-            cbb_Scale.Enabled = true;
-            cbb_Scale.SelectedIndex = 0;
+                cbb_Scale.Enabled = true;
+                cbb_Scale.SelectedIndex = 0;
 
-            //Plot the cities based on their location
-            DrawCities();
+                //Plot the cities based on their location
+                DrawCities();
 
-            //Enable WinForm component
-            panel1.Visible = true;
-            cbb_StartCity.Enabled = true;
-            cbb_StartCity.SelectedIndex = 0;
+                //Enable WinForm component
+                panel1.Visible = true;
+                cbb_StartCity.Enabled = true;
+                cbb_StartCity.SelectedIndex = 0;
+                btn_Calculate.Enabled = true;
+            }
         }
 
         private void cbb_Scale_SelectedIndexChanged(object sender, EventArgs e)
@@ -78,10 +84,20 @@ namespace Project_03
             pictureBox1.Image = bmp;
         }
 
-        private void DrawLine(CityInfo firstCity, CityInfo secondCity)
+        private void DrawPath()
         {
             //draw line between two cities
-            bmp = DrawingHelper.DrawLine(firstCity, secondCity, bmp, Convert.ToSingle(cbb_Scale.SelectedItem.ToString()));
+            for (int i = 0; i < visitedCityList.Count - 1; i++)
+            {
+                bmp = DrawingHelper.DrawLine(visitedCityList[i], visitedCityList[i + 1], bmp, Convert.ToSingle(cbb_Scale.SelectedItem.ToString()));
+
+                //draw the path from the last visited city to the first city
+                if (i == visitedCityList.Count - 2)
+                {
+                    bmp = DrawingHelper.DrawLine(visitedCityList[0], visitedCityList[i + 1], bmp, Convert.ToSingle(cbb_Scale.SelectedItem.ToString()));
+                }
+            }
+
             pictureBox1.Image = bmp;
         }
 
@@ -128,7 +144,8 @@ namespace Project_03
 
         private void CalculatePath()
         {
-            double totalDistance = 0f;
+            visitedCityList.Clear();
+            totalDistance = 0f;
 
             //firstly, find the first two cities taht salesman will visit
             //the fisrt city is based on the user choice, the second city is the city which is most closest to first city 
@@ -154,7 +171,6 @@ namespace Project_03
             }
 
             visitedCityList.Add(secondCity);
-            totalDistance += distance;
 
             //Closest Edge Insertion Heuristic
             while (visitedCityList.Count != cityList.Count)
@@ -184,12 +200,33 @@ namespace Project_03
                         }
                     }
                 }
-
-                totalDistance += distance;
                 visitedCityList.Insert(insertIndex, nextCity);
             }
 
+            ShowResult();
+        }
+
+        private void ShowResult()
+        {
+            //draw the path
+            DrawPath();
+
+            //calculate and print the total travel distance
+            for (int i = 0; i < visitedCityList.Count - 1; i++)
+            {
+                totalDistance += DistanceBetweenTwoCities(visitedCityList[i], visitedCityList[i + 1]);
+            }
+            totalDistance += DistanceBetweenTwoCities(visitedCityList[0], visitedCityList[visitedCityList.Count - 1]);
             lbl_Distance.Text = totalDistance.ToString();
+
+            //print the path
+            StringBuilder str = new StringBuilder();
+            foreach (CityInfo city in visitedCityList)
+            {
+                str.Append(city.ID + "->");
+            }
+            str.Append(visitedCityList[0].ID);
+            lbl_Path.Text = str.ToString();
         }
     }
 }
