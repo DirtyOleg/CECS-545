@@ -1,6 +1,6 @@
 ﻿namespace Project_04
 {
-    partial class Form1
+    partial class Mainfrm
     {
         /// <summary>
         /// Required designer variable.
@@ -63,6 +63,7 @@
             this.btn_start.TabIndex = 18;
             this.btn_start.Text = "Start";
             this.btn_start.UseVisualStyleBackColor = true;
+            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
             // 
             // btn_skip
             // 
@@ -73,7 +74,7 @@
             this.btn_skip.Text = "Skip";
             this.btn_skip.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // Mainfrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -82,7 +83,7 @@
             this.Controls.Add(this.btn_skip);
             this.Controls.Add(this.btn_start);
             this.Controls.Add(this.panel1);
-            this.Name = "Form1";
+            this.Name = "Mainfrm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
