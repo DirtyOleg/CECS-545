@@ -66,6 +66,7 @@
     <Compile Include="EvolutionFrm.Designer.cs">
       <DependentUpon>EvolutionFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ResultHelper.cs" />
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </EmbeddedResource>

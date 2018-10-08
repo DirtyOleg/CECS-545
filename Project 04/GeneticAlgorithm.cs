@@ -191,8 +191,8 @@ namespace Project_04
         //the second one is order crossover operator
         static void CrossoverOperation2(List<CityInfo> parentOne, List<CityInfo> parentTwo, out List<CityInfo> childOne, out List<CityInfo> childTwo)
         {
-            childOne = new List<CityInfo>();
-            childTwo = new List<CityInfo>();
+            CityInfo[] tempOne = new CityInfo[parentOne.Count];
+            CityInfo[] tempTwo = new CityInfo[parentTwo.Count];
 
             int cutPointOne, cutPointTwo;
             cutPointOne = (int)parentOne.Count / 3;
@@ -201,17 +201,119 @@ namespace Project_04
             List<CityInfo> centerOne = parentOne.GetRange(cutPointOne, cutPointTwo - cutPointOne);
             List<CityInfo> centerTwo = parentTwo.GetRange(cutPointOne, cutPointTwo - cutPointOne);
 
+            for (int i = cutPointOne; i < cutPointTwo; i++)
+            {
+                tempOne[i] = parentOne[i];
+                tempTwo[i] = parentTwo[i];
+            }
 
+            #region Child One            
+            int counter = 0;
+            int index = cutPointTwo;
+            for (int i = index; counter < parentTwo.Count - (cutPointTwo - cutPointOne); i++)
+            {
+                if (i == parentOne.Count)
+                {
+                    i = 0;
+                }
+
+                if (tempOne.Contains(parentTwo[i]))
+                {
+                    continue;
+                }
+                else
+                {
+                    tempOne[index] = parentTwo[i];
+                    index++;
+                    counter++;
+                }
+
+                if (index == parentTwo.Count)
+                {
+                    index = 0;
+                }
+            }
+            #endregion
+
+            #region Child Two            
+            counter = 0;
+            index = cutPointTwo;
+            for (int i = index; counter < parentTwo.Count - (cutPointTwo - cutPointOne); i++)
+            {
+                if (i == parentTwo.Count)
+                {
+                    i = 0;
+                }
+
+                if (tempTwo.Contains(parentOne[i]))
+                {
+                    continue;
+                }
+                else
+                {
+                    tempTwo[index] = parentOne[i];
+                    index++;
+                    counter++;
+                }
+
+                if (index == parentOne.Count)
+                {
+                    index = 0;
+                }
+            }
+            #endregion
+
+            childOne = new List<CityInfo>(tempOne);
+            childTwo = new List<CityInfo>(tempTwo);
         }
 
-        static void Mutation()
-        { }
-
-        public static void Mate(ref List<CityInfo>[] population, ref float[] distances, int crossoverSelection, float mutationPossibility)
+        static void Mutation(ref List<CityInfo>[] crossed, float mutationPossibility)
         {
-            float[] fitnesses = Fitness(distances);
-            List<CityInfo>[] selected = Selection(population, fitnesses);
-            List<CityInfo>[] childGeneration = Crossover(selected, crossoverSelection);
+            Random r = new Random();
+
+            for (int i = 0; i < crossed.Count(); i++)
+            {
+                for (int j = 0; j < crossed[i].Count(); j++)
+                {
+                    if (r.NextDouble() > mutationPossibility)
+                    {
+                        continue;
+                    }
+
+                    int swapGene = r.Next(crossed[i].Count());
+
+                    CityInfo temp = crossed[i][swapGene];
+                    crossed[i][swapGene] = crossed[i][j];
+                    crossed[i][j] = temp;
+                }               
+            }
+        }
+
+        static void Elimination(float[] previousDistances, float[] nextDistances, ref List<CityInfo>[] previousPopulation, List<CityInfo>[] nextPopulation)
+        {
+            if (nextDistances.Min() < previousDistances.Max())
+            {
+                int indexOne = Array.IndexOf(nextDistances, nextDistances.Min());
+                int indexTwo = Array.IndexOf(previousDistances, previousDistances.Max());
+                previousPopulation[indexTwo] = nextPopulation[indexOne];
+                previousDistances[indexTwo] = nextDistances[indexOne];
+            }
+        }
+
+        public static void Evolution(ref List<CityInfo>[] previousPopulation, ref float[] previousDistances, int crossoverSelection, float mutationPossibility)
+        {
+            float[] fitnesses = Fitness(previousDistances);
+            List<CityInfo>[] selected = Selection(previousPopulation, fitnesses);
+            List<CityInfo>[] nextPopulation = Crossover(selected, crossoverSelection);
+            Mutation(ref nextPopulation, mutationPossibility);
+
+            float[] nextDistances = new float[4];
+            for (int i = 0; i < previousPopulation.Count(); i++)
+            {
+                nextDistances[i] = DistanceHelper.TotalDistance(previousPopulation[i]);
+            }
+
+            Elimination(previousDistances, nextDistances, ref previousPopulation, nextPopulation);
         }
     }
 }

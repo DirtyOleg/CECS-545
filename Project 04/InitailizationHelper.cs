@@ -9,9 +9,9 @@ namespace Project_04
 {
     public static class InitailizationHelper
     {
-        public static void CreateInitialGeneration(List<CityInfo> initialCityListOne, List<CityInfo> initialCityListTwo, List<CityInfo> initialCityListThree, List<CityInfo> initialCityListFour, float[] distances)
+        public static void CreateInitialGeneration(List<CityInfo> initialCityListOne, List<CityInfo> initialCityListTwo, List<CityInfo> initialCityListThree, List<CityInfo> initialCityListFour)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Random10.tsp");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Random100.tsp");
 
             //read all lines from the .tsp file, each line will be one element in the following array
             //File.ReadAllLines method will ignore the last empty line
@@ -30,15 +30,10 @@ namespace Project_04
                     Y = Convert.ToSingle(row[2])
                 });
             }
-            
-            CreateCityBasedOnNearestInsertionHeuristic(initialCityListTwo, 3, initialCityListOne);
-            CreateCityBasedOnNearestInsertionHeuristic(initialCityListThree, 5, initialCityListOne);
-            CreateCityListBasedOnNearestFirst(initialCityListFour, 7, initialCityListOne);
 
-            distances[0] = DistanceHelper.TotalDistance(initialCityListOne);
-            distances[1] = DistanceHelper.TotalDistance(initialCityListTwo);
-            distances[2] = DistanceHelper.TotalDistance(initialCityListThree);
-            distances[3] = DistanceHelper.TotalDistance(initialCityListFour);
+            CreateCityListOperationOne(initialCityListTwo, initialCityListOne);
+            CreateCityListOperationTwo(initialCityListThree, initialCityListOne);
+            CreateCityListOperationThree(initialCityListFour, initialCityListOne);
         }
 
         private static void CreateCityListBasedOnNearestFirst(List<CityInfo> cityList, int startCityID, List<CityInfo> sample)
@@ -69,7 +64,7 @@ namespace Project_04
             }
         }
 
-        private static void CreateCityBasedOnNearestInsertionHeuristic(List<CityInfo> cityList, int startCityID, List<CityInfo> sample)
+        private static void CreateCityListBasedOnNearestInsertionHeuristic(List<CityInfo> cityList, int startCityID, List<CityInfo> sample)
         {
             //firstly, find the first two cities taht salesman will visit
             //the fisrt city is based on the user choice, the second city is the city which is most closest to first city 
@@ -125,6 +120,37 @@ namespace Project_04
                     }
                 }
                 cityList.Insert(insertIndex, nextCity);
+            }
+        }
+
+        private static void CreateCityListOperationOne(List<CityInfo> cityList, List<CityInfo> sample)
+        {
+            for (int i = 0; i < sample.Count; i += 2)
+            {
+                cityList.Add(sample[i]);
+            }
+
+            for (int i = 1; i < sample.Count; i += 2)
+            {
+                cityList.Add(sample[i]);
+            }
+        }
+
+        private static void CreateCityListOperationTwo(List<CityInfo> cityList, List<CityInfo> sample)
+        {
+            for (int i = 0; i < sample.Count / 2; i++)
+            {
+                cityList.Add(sample[i]);
+                cityList.Add(sample[sample.Count - i - 1]);
+            }
+        }
+
+        private static void CreateCityListOperationThree(List<CityInfo> cityList, List<CityInfo> sample)
+        {
+            for (int i = 0; i < sample.Count / 2; i++)
+            {
+                cityList.Add(sample[i]);
+                cityList.Add(sample[i + sample.Count / 2]);
             }
         }
     }

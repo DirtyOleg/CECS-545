@@ -16,5 +16,18 @@ namespace Project_04
         {
             InitializeComponent();
         }
+
+        public void CreateChart(ResultStruct[] results)
+        {
+            int index = 1;
+            foreach (ResultStruct result in results)
+            {
+                this.chart1.Series["Max"].Points.AddXY(index, result.max);
+                this.chart1.Series["Min"].Points.AddXY(index, result.min);
+                this.chart1.Series["Avg"].Points.AddXY(index, result.avg);
+                this.chart1.Series["STD"].Points.AddXY(index, result.std);
+                index++;
+            }
+        }
     }
 }
