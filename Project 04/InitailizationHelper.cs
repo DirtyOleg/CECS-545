@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_04
+namespace Project_05
 {
     public static class InitailizationHelper
     {
@@ -34,6 +34,9 @@ namespace Project_04
             CreateCityListOperationOne(initialCityListTwo, initialCityListOne);
             CreateCityListOperationTwo(initialCityListThree, initialCityListOne);
             CreateCityListOperationThree(initialCityListFour, initialCityListOne);
+
+            //Random r = new Random();
+            //CreateCityListBasedOnNearestFirst(initialCityListFour, r.Next(1,initialCityListOne.Count + 1), initialCityListOne);
         }
 
         private static void CreateCityListBasedOnNearestFirst(List<CityInfo> cityList, int startCityID, List<CityInfo> sample)
@@ -52,7 +55,7 @@ namespace Project_04
                         continue;
                     }
 
-                    float temp = DistanceHelper.DistanceBetweenTwoCities(city, cityList.Last());
+                    float temp = DistanceHelper.DistanceBetweenTwoPoints(city, cityList.Last());
                     if (temp < distance)
                     {
                         distance = temp;
@@ -81,7 +84,7 @@ namespace Project_04
                     continue;
                 }
 
-                float temp = DistanceHelper.DistanceBetweenTwoCities(startCity, city);
+                float temp = DistanceHelper.DistanceBetweenTwoPoints(startCity, city);
                 if (distance > temp)
                 {
                     secondCity = city;

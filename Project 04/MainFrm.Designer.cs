@@ -1,4 +1,4 @@
-﻿namespace Project_04
+﻿namespace Project_05
 {
     partial class Mainfrm
     {
@@ -46,26 +46,26 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(12, 13);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1020, 1020);
+            this.panel1.Size = new System.Drawing.Size(1020, 1133);
             this.panel1.TabIndex = 17;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(10, 10);
+            this.pictureBox1.Location = new System.Drawing.Point(10, 11);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1000, 1000);
+            this.pictureBox1.Size = new System.Drawing.Size(1000, 1111);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // btn_start
             // 
-            this.btn_start.Location = new System.Drawing.Point(1089, 134);
+            this.btn_start.Location = new System.Drawing.Point(1089, 149);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(97, 48);
+            this.btn_start.Size = new System.Drawing.Size(97, 53);
             this.btn_start.TabIndex = 18;
             this.btn_start.Text = "Start";
             this.btn_start.UseVisualStyleBackColor = true;
@@ -73,9 +73,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1089, 297);
+            this.button1.Location = new System.Drawing.Point(1089, 330);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(97, 48);
+            this.button1.Size = new System.Drawing.Size(97, 53);
             this.button1.TabIndex = 19;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(1089, 464);
+            this.button2.Location = new System.Drawing.Point(1089, 516);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(97, 48);
+            this.button2.Size = new System.Drawing.Size(97, 53);
             this.button2.TabIndex = 20;
             this.button2.Text = "Start";
             this.button2.UseVisualStyleBackColor = true;
@@ -93,9 +93,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(1089, 637);
+            this.button3.Location = new System.Drawing.Point(1089, 708);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(97, 48);
+            this.button3.Size = new System.Drawing.Size(97, 53);
             this.button3.TabIndex = 21;
             this.button3.Text = "Start";
             this.button3.UseVisualStyleBackColor = true;
@@ -104,45 +104,45 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1039, 59);
+            this.label1.Location = new System.Drawing.Point(1039, 66);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(224, 72);
+            this.label1.Size = new System.Drawing.Size(190, 80);
             this.label1.TabIndex = 22;
             this.label1.Text = "Crossover Operation:\r\nPartial Mapped Crossover\r\nMutation Possibility:\r\n0.1";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1039, 222);
+            this.label2.Location = new System.Drawing.Point(1039, 247);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(224, 72);
+            this.label2.Size = new System.Drawing.Size(190, 80);
             this.label2.TabIndex = 23;
-            this.label2.Text = "Crossover Operation:\r\nPartial Mapped Crossover\r\nMutation Possibility:\r\n0.5";
+            this.label2.Text = "Crossover Operation:\r\nPartial Mapped Crossover\r\nMutation Possibility:\r\n0.3";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1039, 389);
+            this.label3.Location = new System.Drawing.Point(1039, 432);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(197, 72);
+            this.label3.Size = new System.Drawing.Size(158, 80);
             this.label3.TabIndex = 24;
             this.label3.Text = "Crossover Operation:\r\nOrder Crossover\r\nMutation Possibility:\r\n0.1";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1039, 562);
+            this.label4.Location = new System.Drawing.Point(1039, 624);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(197, 72);
+            this.label4.Size = new System.Drawing.Size(158, 80);
             this.label4.TabIndex = 25;
-            this.label4.Text = "Crossover Operation:\r\nOrder Crossover\r\nMutation Possibility:\r\n0.5";
+            this.label4.Text = "Crossover Operation:\r\nOrder Crossover\r\nMutation Possibility:\r\n0.3";
             // 
             // Mainfrm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1288, 1044);
+            this.ClientSize = new System.Drawing.Size(1288, 1050);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);

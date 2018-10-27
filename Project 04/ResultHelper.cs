@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_04
+namespace Project_05
 {
     public struct ResultStruct
     {

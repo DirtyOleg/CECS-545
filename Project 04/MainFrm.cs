@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Project_04
+namespace Project_05
 {
     public partial class Mainfrm : Form
     {
@@ -23,7 +23,7 @@ namespace Project_04
 
         private Bitmap bmp = new Bitmap(1000, 1000);
 
-        private const int iteration = 30;
+        private const int iteration = 45;
 
         public Mainfrm()
         {
@@ -43,7 +43,7 @@ namespace Project_04
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Start(1, 0.5f);
+            Start(1, 0.3f);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace Project_04
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Start(2, 0.5f);
+            Start(2, 0.3f);
         }
 
         private void Start(int crossoverSelection, float mutationPossibility)

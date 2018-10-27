@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_04
+namespace Project_05
 {
     public static class GeneticAlgorithm
     {
@@ -267,36 +267,94 @@ namespace Project_04
             childTwo = new List<CityInfo>(tempTwo);
         }
 
+        //new mutation method, instead of random switch two city, this new method iterate the new cith path, resolve intersection with mutation possibility
         static void Mutation(ref List<CityInfo>[] crossed, float mutationPossibility)
         {
-            Random r = new Random();
-
-            for (int i = 0; i < crossed.Count(); i++)
+            foreach (List<CityInfo> cityList in crossed)
             {
-                for (int j = 0; j < crossed[i].Count(); j++)
-                {
-                    if (r.NextDouble() > mutationPossibility)
-                    {
-                        continue;
-                    }
-
-                    int swapGene = r.Next(crossed[i].Count());
-
-                    CityInfo temp = crossed[i][swapGene];
-                    crossed[i][swapGene] = crossed[i][j];
-                    crossed[i][j] = temp;
-                }               
+                MutationOperation(cityList, mutationPossibility);
             }
         }
 
-        static void Elimination(float[] previousDistances, float[] nextDistances, ref List<CityInfo>[] previousPopulation, List<CityInfo>[] nextPopulation)
+        static void MutationOperation(List<CityInfo> cityList, float mutationPossibility)
         {
-            if (nextDistances.Min() < previousDistances.Max())
+            Random r = new Random();
+
+            for (int i = 0; i < cityList.Count - 1; i++)
             {
-                int indexOne = Array.IndexOf(nextDistances, nextDistances.Min());
-                int indexTwo = Array.IndexOf(previousDistances, previousDistances.Max());
-                previousPopulation[indexTwo] = nextPopulation[indexOne];
-                previousDistances[indexTwo] = nextDistances[indexOne];
+                for (int j = i + 2; j < cityList.Count - 1; j++)
+                {
+                    CityInfo cityOne = cityList[i];
+                    CityInfo cityTwo = cityList[j];
+                    CityInfo cityThree = cityList[i + 1];
+                    CityInfo cityFour = cityList[j + 1];
+
+                    //check if two lines are intersected, method is compare area
+                    //if two lines are intersected, the sum of the area of the two triangle remain same, while if the two lines are not intersected, the areas are not the same
+
+                    if (AreaCheck(cityOne, cityTwo, cityThree, cityFour))
+                    {
+                        if (r.NextDouble() > mutationPossibility)
+                        {
+                            continue;
+                        }
+
+                        CityInfo temp = cityList[i];
+                        cityList[i] = cityList[j];
+                        cityList[j] = temp;
+
+                        temp = cityList[i + 1];
+                        cityList[i + 1] = cityList[j + 1];
+                        cityList[j + 1] = temp;
+                    }
+                }
+            }
+        }
+
+        static bool AreaCheck(CityInfo cityOne, CityInfo cityTwo, CityInfo cityThree, CityInfo cityFour)
+        {
+            float areaOne, areaTwo;
+
+            areaOne = 0.5f * DistanceHelper.DistanceBetweenTwoPoints(cityOne, cityThree) * (DistanceHelper.DistanceFromPointToLine(cityOne, cityThree, cityTwo) + DistanceHelper.DistanceFromPointToLine(cityOne, cityThree, cityFour));
+
+            areaTwo = 0.5f * DistanceHelper.DistanceBetweenTwoPoints(cityTwo, cityFour) * (DistanceHelper.DistanceFromPointToLine(cityTwo, cityFour, cityOne) + DistanceHelper.DistanceFromPointToLine(cityTwo, cityFour, cityThree));
+
+            return areaOne == areaTwo ? true : false;
+        }
+
+        #region Old Mutation Method
+
+        //static void Mutation(List<CityInfo>[] crossed, float mutationPossibility)
+        //{
+        //    Random r = new Random();
+
+        //    for (int i = 0; i < crossed.Count(); i++)
+        //    {
+        //        for (int j = 0; j < crossed[i].Count(); j++)
+        //        {
+        //            if (r.NextDouble() > mutationPossibility)
+        //            {
+        //                continue;
+        //            }
+
+        //            int swapGene = r.Next(crossed[i].Count());
+
+        //            CityInfo temp = crossed[i][swapGene];
+        //            crossed[i][swapGene] = crossed[i][j];
+        //            crossed[i][j] = temp;
+        //        }
+        //    }
+        //}
+        #endregion
+
+        static void Elimination(ref float[] previousDistances, ref float[] nextDistances, ref List<CityInfo>[] previousPopulation, ref List<CityInfo>[] nextPopulation)
+        {
+            if (nextDistances.Max() > previousDistances.Min())
+            {
+                int indexOne = Array.IndexOf(nextDistances, nextDistances.Max());
+                int indexTwo = Array.IndexOf(previousDistances, previousDistances.Min());
+                nextDistances[indexOne] = previousDistances[indexTwo];
+                nextPopulation[indexOne] = previousPopulation[indexTwo];
             }
         }
 
@@ -308,12 +366,14 @@ namespace Project_04
             Mutation(ref nextPopulation, mutationPossibility);
 
             float[] nextDistances = new float[4];
-            for (int i = 0; i < previousPopulation.Count(); i++)
+            for (int i = 0; i < nextPopulation.Count(); i++)
             {
-                nextDistances[i] = DistanceHelper.TotalDistance(previousPopulation[i]);
+                nextDistances[i] = DistanceHelper.TotalDistance(nextPopulation[i]);
             }
 
-            Elimination(previousDistances, nextDistances, ref previousPopulation, nextPopulation);
+            Elimination(ref previousDistances, ref nextDistances, ref previousPopulation, ref nextPopulation);
+            previousPopulation = nextPopulation;
+            previousDistances = nextDistances;
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_04
+namespace Project_05
 {
     public static class DistanceHelper
     {
-        public static float DistanceBetweenTwoCities(CityInfo cityOne, CityInfo cityTwo)
+        public static float DistanceBetweenTwoPoints(CityInfo cityOne, CityInfo cityTwo)
         {
             return Convert.ToSingle(Math.Sqrt(Math.Pow(cityOne.X - cityTwo.X, 2) + Math.Pow(cityOne.Y - cityTwo.Y, 2)));
         }
@@ -28,9 +28,9 @@ namespace Project_04
 
             for (int i = 0; i < cityList.Count - 1; i++)
             {
-                distance += DistanceBetweenTwoCities(cityList[i], cityList[i + 1]);
+                distance += DistanceBetweenTwoPoints(cityList[i], cityList[i + 1]);
             }
-            distance += DistanceBetweenTwoCities(cityList.First(), cityList.Last());
+            distance += DistanceBetweenTwoPoints(cityList.First(), cityList.Last());
 
             return distance;
         }

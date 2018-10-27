@@ -1,4 +1,4 @@
-﻿namespace Project_04
+﻿namespace Project_05
 {
     partial class EvolutionFrm
     {
